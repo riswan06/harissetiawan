@@ -11,7 +11,7 @@ teks = st.text_input("Apa pengeluaranmu hari ini?", placeholder="Contoh: Beli ko
 if st.button("Catat Pengeluaran"):
     if teks:
         # Kirim ke FastAPI kita
-        res = requests.post("http://127.0.0.1:8000/catat", json={"teks": teks})
+        res = requests.post("https://harissetiawan.onrender.com/catat", json={"teks": teks})
         if res.status_code == 200:
             st.success("Berhasil dicatat!")
         else:
@@ -24,7 +24,7 @@ st.divider()
 st.subheader("📊 Laporan Pengeluaran")
 
 if st.button("Refresh Data"):
-    res = requests.get("http://127.0.0.1:8000/riwayat")
+    res = requests.get("https://harissetiawan.onrender.com/riwayat")
     if res.status_code == 200:
         data = res.json()
         if data:
