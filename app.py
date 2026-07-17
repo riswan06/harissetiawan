@@ -60,6 +60,8 @@ if st.button("Refresh Data"):
                 item_id = item.get('_id') or item.get('id') or str(index)
                 
                 if col2.button("Hapus", key=str(item_id)):
+                    st.info(f"Tombol merespons! Mencoba menghapus ID: {item_id}")
+                    
                     url_delete = f"https://harissetiawan.onrender.com/delete/{item_id}"
                     res_delete = requests.delete(url_delete)
                     
