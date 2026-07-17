@@ -29,7 +29,8 @@ if st.button("Refresh Data"):
     st.rerun()
 
 # Mengambil data dari server (berada di luar tombol agar otomatis tampil)
-res = requests.get("https://harissetiawan.onrender.com/riwayat")
+# Menambahkan timestamp agar URL selalu dianggap baru oleh browser/server
+res = requests.get(f"https://harissetiawan.onrender.com/riwayat?t={time.time()}")
 
 if res.status_code == 200:
     data = res.json()
