@@ -26,12 +26,12 @@ st.subheader("📊 Laporan Pengeluaran")
 
 if st.button("Refresh Data"):
     st.rerun
- res = requests.get("https://harissetiawan.onrender.com/riwayat")
-    if res.status_code == 200:
+res = requests.get("https://harissetiawan.onrender.com/riwayat")
+if res.status_code == 200:
         data = res.json()
-        if data:
+    if data:
             # 1. Ubah data JSON menjadi DataFrame Pandas
-            df = pd.DataFrame(data)
+        df = pd.DataFrame(data)
             
             # 2. Hitung Total Keseluruhan
             total_pengeluaran = df['amount'].sum()
