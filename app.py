@@ -66,8 +66,8 @@ if st.button("Refresh Data"):
                     res_delete = requests.delete(url_delete)
 
                 # Cek apakah server berhasil dihubungi
-                if res_delete.status_code == 200:
-                    hasil_json = res_delete.json()
+                    if res_delete.status_code == 200:
+                        hasil_json = res_delete.json()
 
                     # Cek apakah backend mengirim pesan "error"
                     if "error" in hasil_json:
