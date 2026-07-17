@@ -63,7 +63,14 @@ async def delete_data(item_id: str):
     try:
         # Coba konversi ID yang dikirim ke format ObjectId MongoDB
         obj_id = ObjectId(item_id)
+        print(f"Backend menerima perintah hapus untuk ID: {item_id}") 
         
+        result = collection.delete_one({"_id": obj_id})
+        
+        if result.deleted_count == 1:
+            return {"message": "Data berhasil dihapus"}
+        else:
+            return {"error": "Data tidak ditemukan"}
         # Lakukan penghapusan
         result = collection.delete_one({"_id": obj_id})
         
