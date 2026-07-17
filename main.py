@@ -56,6 +56,16 @@ async def ambil_riwayat():
     items = await cursor.to_list(length=20)
     return items
 
+@app.delete("/delete/{item_id}")
+async def delete_data(item_id: str):
+    # Mencari dan menghapus berdasarkan _id MongoDB
+    result = collection.delete_one({"_id": ObjectId(item_id)})
+    
+    if result.deleted_count == 1:
+        return {"message": "Data berhasil dihapus"}
+    else:
+        return {"error": "Data tidak ditemukan"}
+
 # 5. Endpoint Utama
 @app.post("/catat", response_model=OutputPengeluaran)
 async def catat_pengeluaran(data: InputTeks):
