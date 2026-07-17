@@ -6,6 +6,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from groq import Groq
 from motor.motor_asyncio import AsyncIOMotorClient
+from bson import ObjectId
 
 # Load file .env
 load_dotenv()
