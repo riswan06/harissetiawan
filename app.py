@@ -70,14 +70,14 @@ if st.button("Refresh Data"):
                         hasil_json = res_delete.json()
 
                     # Cek apakah backend mengirim pesan "error"
-                    if "error" in hasil_json:
-                        st.error(f"Server gagal menghapus: {hasil_json['error']}")
+                        if "error" in hasil_json:
+                            st.error(f"Server gagal menghapus: {hasil_json['error']}")
                     else:
                         st.success("Data berhasil dihapus!")
                         time.sleep(1.5) # Tahan halaman selama 1,5 detik agar pesan terbaca
                         st.rerun() # Baru muat ulang halaman
-                else:
-                    st.error(f"Error komunikasi dengan server. Kode: {res_delete.status_code}")
+                    else:
+                        st.error(f"Error komunikasi dengan server. Kode: {res_delete.status_code}")
             
         else:
             st.info("Belum ada data. Silakan catat pengeluaran pertama Anda!")
