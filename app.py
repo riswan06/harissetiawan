@@ -34,6 +34,7 @@ res = requests.get(f"https://harissetiawan.onrender.com/riwayat?t={time.time()}"
 
 if res.status_code == 200:
     data = res.json()
+    st.write("Isi data dari server:", data)
     
     if data:
         # 1. Ubah data JSON menjadi DataFrame
