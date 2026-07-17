@@ -62,8 +62,8 @@ if st.button("Refresh Data"):
                 
                 # Pastikan key berupa string agar Streamlit tidak error
                 if col2.button("Hapus", key=str(item_id)):
-                url_delete = f"https://harissetiawan.onrender.com/delete/{item_id}"
-                res_delete = requests.delete(url_delete)
+                    url_delete = f"https://harissetiawan.onrender.com/delete/{item_id}"
+                    res_delete = requests.delete(url_delete)
 
                 # Cek apakah server berhasil dihubungi
                 if res_delete.status_code == 200:
