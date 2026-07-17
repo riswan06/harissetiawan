@@ -61,30 +61,21 @@ async def ambil_riwayat():
 @app.delete("/delete/{item_id}")
 async def delete_data(item_id: str):
     try:
-        # Coba konversi ID yang dikirim ke format ObjectId MongoDB
         obj_id = ObjectId(item_id)
-        print(f"Backend menerima perintah hapus untuk ID: {item_id}") 
+        # Lihat apa yang sebenarnya dicari oleh MongoDB
+        print(f"DEBUG: Mencoba menghapus ID: {obj_id} dari koleksi: {collection.name}")
         
         result = collection.delete_one({"_id": obj_id})
+        
+        # Lihat hasil dari MongoDB
+        print(f"DEBUG: Jumlah data yang dihapus: {result.deleted_count}")
         
         if result.deleted_count == 1:
             return {"message": "Data berhasil dihapus"}
         else:
-            return {"error": "Data tidak ditemukan"}
-        # Lakukan penghapusan
-        result = collection.delete_one({"_id": obj_id})
-        
-        if result.deleted_count == 1:
-            return {"message": "Data berhasil dihapus"}
-        else:
-            return {"error": "Data tidak ditemukan"}
-            
-    except InvalidId:
-        # Ini akan menangkap error jika format ID tidak valid (bukan crash lagi)
-        return {"error": "Format ID tidak valid"}
+            return {"error": f"Data dengan ID {item_id} tidak ditemukan di database"}
     except Exception as e:
-        # Ini akan menangkap error tak terduga lainnya
-        return {"error": f"Terjadi kesalahan server: {str(e)}"}
+        return {"error": str(e)}
 
 # 5. Endpoint Utama
 @app.post("/catat", response_model=OutputPengeluaran)
