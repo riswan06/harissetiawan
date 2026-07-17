@@ -45,9 +45,31 @@ if st.button("Refresh Data"):
             st.write("**Pengeluaran per Kategori**")
             st.bar_chart(data=df_kategori, x="category", y="amount", color="#ff4b4b")
             
-            # 5. Tampilkan Tabel Detail
+            # 5. Tampilkan Daftar Transaksi & Tombol Hapus
             st.write("**Riwayat Transaksi Terakhir**")
-            st.dataframe(df) # st.dataframe lebih interaktif daripada st.table
+            
+            # Kita lakukan perulangan untuk setiap data dari database
+            for item in data:
+                # Membagi baris menjadi 2 kolom: Kiri (teks) lebih lebar, Kanan (tombol) lebih kecil
+                col1, col2 = st.columns([4, 1])
+                
+                # Tampilkan detail nominal dan kategorinya
+                # get() digunakan agar tidak error jika kebetulan ada data lama yang formatnya berbeda
+                nominal = item.get('amount', 0)
+                kategori = item.get('category', 'Lainnya')
+                col1.write(f"Rp {nominal:,} - **{kategori}**") 
+                
+                # Buat tombol hapus yang dikaitkan dengan ID unik dari MongoDB
+                if col2.button("Hapus", key=item['_id']):
+                    # Kirim perintah DELETE ke backend Render Anda
+                    url_delete = f"https://harissetiawan.onrender.com/delete/{item['_id']}"
+                    res_delete = requests.delete(url_delete)
+                    
+                    if res_delete.status_code == 200:
+                        st.success("Data berhasil dihapus!")
+                        st.rerun() # Refresh halaman agar data langsung hilang dari layar
+                    else:
+                        st.error("Gagal menghapus data.")
             
         else:
             st.info("Belum ada data. Silakan catat pengeluaran pertama Anda!")
