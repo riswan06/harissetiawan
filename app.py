@@ -57,25 +57,21 @@ if st.button("Refresh Data"):
                 kategori = item.get('category', 'Lainnya')
                 col1.write(f"Rp {nominal:,} - **{kategori}**") 
                 
-                # CARA AMAN MENGAMBIL ID: Cari '_id', kalau tidak ada cari 'id'
                 item_id = item.get('_id') or item.get('id') or str(index)
                 
-                # Pastikan key berupa string agar Streamlit tidak error
                 if col2.button("Hapus", key=str(item_id)):
                     url_delete = f"https://harissetiawan.onrender.com/delete/{item_id}"
                     res_delete = requests.delete(url_delete)
-
-                # Cek apakah server berhasil dihubungi
+                    
                     if res_delete.status_code == 200:
                         hasil_json = res_delete.json()
-
-                    # Cek apakah backend mengirim pesan "error"
+                        
                         if "error" in hasil_json:
                             st.error(f"Server gagal menghapus: {hasil_json['error']}")
-                    else:
-                        st.success("Data berhasil dihapus!")
-                        time.sleep(1.5) # Tahan halaman selama 1,5 detik agar pesan terbaca
-                        st.rerun() # Baru muat ulang halaman
+                        else:
+                            st.success("Data berhasil dihapus!")
+                            time.sleep(1.5)
+                            st.rerun()
                     else:
                         st.error(f"Error komunikasi dengan server. Kode: {res_delete.status_code}")
             
