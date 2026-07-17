@@ -25,7 +25,8 @@ st.divider()
 st.subheader("📊 Laporan Pengeluaran")
 
 if st.button("Refresh Data"):
-    res = requests.get("https://harissetiawan.onrender.com/riwayat")
+    st.rerun
+ res = requests.get("https://harissetiawan.onrender.com/riwayat")
     if res.status_code == 200:
         data = res.json()
         if data:
@@ -61,7 +62,7 @@ if st.button("Refresh Data"):
                 
                 if col2.button("Hapus", key=str(item_id)):
                     st.info(f"Tombol merespons! Mencoba menghapus ID: {item_id}")
-                    
+
                     url_delete = f"https://harissetiawan.onrender.com/delete/{item_id}"
                     res_delete = requests.delete(url_delete)
                     
