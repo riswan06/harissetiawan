@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from groq import Groq
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
+from bson.errors import InvalidId
 
 # Load file .env
 load_dotenv()
@@ -59,13 +60,24 @@ async def ambil_riwayat():
 
 @app.delete("/delete/{item_id}")
 async def delete_data(item_id: str):
-    # Mencari dan menghapus berdasarkan _id MongoDB
-    result = collection.delete_one({"_id": ObjectId(item_id)})
-    
-    if result.deleted_count == 1:
-        return {"message": "Data berhasil dihapus"}
-    else:
-        return {"error": "Data tidak ditemukan"}
+    try:
+        # Coba konversi ID yang dikirim ke format ObjectId MongoDB
+        obj_id = ObjectId(item_id)
+        
+        # Lakukan penghapusan
+        result = collection.delete_one({"_id": obj_id})
+        
+        if result.deleted_count == 1:
+            return {"message": "Data berhasil dihapus"}
+        else:
+            return {"error": "Data tidak ditemukan"}
+            
+    except InvalidId:
+        # Ini akan menangkap error jika format ID tidak valid (bukan crash lagi)
+        return {"error": "Format ID tidak valid"}
+    except Exception as e:
+        # Ini akan menangkap error tak terduga lainnya
+        return {"error": f"Terjadi kesalahan server: {str(e)}"}
 
 # 5. Endpoint Utama
 @app.post("/catat", response_model=OutputPengeluaran)
